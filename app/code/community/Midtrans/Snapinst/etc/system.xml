@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <sections>
+    <payment>
+      <groups>
+        <snapinst translate="label comment" module="snapinst">
+          <label>Midtrans Installment ver 0.0.1</label>
+          <frontend_type>text</frontend_type>
+          <sort_order>1</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <active translate="label">
+              <label>Enabled</label>
+              <config_path>payment/snapinst/active</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </active>
+            <title translate="label">
+              <label>Title</label>
+              <config_path>payment/snapinst/title</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+            <order_status translate="label">
+              <label>New Order Status</label>
+              <config_path>payment/snapinst/order_status</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_order_status</source_model>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </order_status>
+            <conversion_rate translate="label">
+              <label>Conversion Rate</label>
+              <config_path>payment/snapinst/conversion_rate</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>This conversion rate will be used if the IDR currency is not installed in your system.</comment>
+            </conversion_rate>
+            <server_key_v2>
+              <label>Server Key</label>
+              <config_path>payment/snapinst/server_key</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>6</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </server_key_v2>
+            <environment>
+              <label>Environment</label>
+              <config_path>payment/snapinst/environment</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>snap/system_config_source_api_environment</source_model>
+              <sort_order>7</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Change to 'Production' once your store is going live</comment>
+            </environment>
+            <threshold>
+              <label>Min Transaction</label>
+              <config_path>payment/snapinst/threshold</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>7</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Minimun transaction for installment. e.g 500000</comment>
+            </threshold>
+            <form_message>
+              <label>Form Message</label>
+              <config_path>payment/snapinst/form_message</config_path>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </form_message>
+            <info_type>
+              <label>Show Midtrans logo as Info?</label>
+              <frontend_type>select</frontend_type>
+              <config_path>payment/snapinst/info_type</config_path>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>11</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </info_type>
+            <allowspecific translate="label">
+              <label>Payment Applicable From</label>
+              <config_path>payment/snapinst/allowspecific</config_path>
+              <frontend_type>select</frontend_type>
+              <sort_order>12</sort_order>
+              <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </allowspecific>
+            <specificcountry translate="label">
+              <label>Countries Payment Applicable From</label>
+              <config_path>payment/snapinst/specificcountry</config_path>
+              <frontend_type>multiselect</frontend_type>
+              <sort_order>13</sort_order>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <allowspecific>1</allowspecific>
+              </depends>
+            </specificcountry>
+            <sort_order translate="label">
+              <label>Sort Order</label>
+              <config_path>payment/snapinst/sort_order</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>14</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </sort_order>
+          </fields>
+        </snapinst>
+      </groups>
+    </payment>
+  </sections>
+</config>
