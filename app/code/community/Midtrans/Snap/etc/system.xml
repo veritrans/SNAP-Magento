@@ -4,7 +4,7 @@
     <payment>
       <groups>
         <snap translate="label comment" module="snap">
-          <label>Midtrans ver 0.0.1</label>
+          <label>Midtrans ver 1.0.0</label>
           <frontend_type>text</frontend_type>
           <sort_order>1</sort_order>
           <show_in_default>1</show_in_default>
