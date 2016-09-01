@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Midtrans_Snapbin>
+            <active>true</active>
+            <codePool>community</codePool>
+            <dependes>
+            	<Mage_adminhtml />
+            </dependes>
+        </Midtrans_Snapbin>
+    </modules>
+</config>
