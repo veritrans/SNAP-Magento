@@ -52,7 +52,6 @@ class Midtrans_Snap_PaymentController
     Veritrans_Config::$is3ds =
         Mage::getStoreConfig('payment/snap/enable_3d_secure') == '1'
         ? true : false;
-Mage::log('environment'.Mage::getStoreConfig('payment/snap/enable_3d_secure'),null,'snap.log',true);
     Veritrans_Config::$isSanitized = true;
 
     $transaction_details = array();
@@ -175,28 +174,32 @@ Mage::log('environment'.Mage::getStoreConfig('payment/snap/enable_3d_secure'),nu
       unset($each);
     }
 
+
     $payloads = array();
     $payloads['transaction_details'] = $transaction_details;
     $payloads['item_details']        = $item_details;
     $payloads['customer_details']    = $customer_details;
+
 
     $totalPrice = 0;
 
     foreach ($item_details as $item) {
       $totalPrice += $item['price'] * $item['quantity'];
     }
-
+    Mage::log(json_encode($payloads),null,'snap.log',true);
     try {
       $redirUrl = Veritrans_Snap::getSnapToken($payloads);
       Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
-      $this->_getCheckout()->setToken($redirUrl);        
+      Mage::log(json_encode($payloads),null,'snap.log',true);
+      $this->_getCheckout()->setToken($redirUrl);  
+      $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snap/environment'));  
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
 
       //remove item
       foreach( Mage::getSingleton('checkout/session')->getQuote()->getItemsCollection() as $item ){
             Mage::getSingleton('checkout/cart')->removeItem( $item->getId() )->save();
       }
-      
+
       $template = 'snap/open.phtml';
 
       //Get current layout state

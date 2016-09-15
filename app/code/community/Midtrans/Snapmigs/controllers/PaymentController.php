@@ -180,11 +180,7 @@ class Midtrans_Snapmigs_PaymentController
     $payloads['enabled_payments']    = array('credit_card');
     $payloads['item_details']        = $item_details;
     $payloads['customer_details']    = $customer_details;    
-
-    
-    if ($totalPrice >= Mage::getStoreConfig('payment/snapmigs/threshold') ) {
-        $payloads['credit_card'] = $credit_card;
-    }
+    $payloads['credit_card'] = $credit_card;
 
     Mage::log(json_encode($payloads),null,'snap.log',true);
     
@@ -193,6 +189,7 @@ class Midtrans_Snapmigs_PaymentController
       Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
       Mage::log(json_encode($payloads),null,'snap.log',true);
       $this->_getCheckout()->setToken($redirUrl);        
+      $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snapmigs/environment'));
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
 
       //remove item

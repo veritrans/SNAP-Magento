@@ -198,6 +198,7 @@ class Midtrans_Snapbin_PaymentController
       Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
       Mage::log(json_encode($payloads),null,'snap.log',true);
       $this->_getCheckout()->setToken($redirUrl);        
+      $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snapbin/environment'));  
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
 
       //remove item
