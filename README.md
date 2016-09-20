@@ -36,7 +36,7 @@ Payment Method Feature:
 
 #### Get help
 
-* [Veritrans sandbox login](https://my.sandbox.veritrans.co.id/)
+* [SNAP-Magento Wiki](https://github.com/veritrans/SNAP-Magento/wiki)
 * [Veritrans registration](https://my.veritrans.co.id/register)
-* [Veritrans documentation](http://docs.veritrans.co.id)
-* Technical support [support@veritrans.co.id](mailto:support@veritrans.co.id)
+* [SNAP documentation](http://snap-docs.veritrans.co.id)
+* Can't find answer you looking for? email to [support@veritrans.co.id](mailto:support@veritrans.co.id)
