@@ -202,7 +202,8 @@ class Midtrans_Snapinst_PaymentController
       $redirUrl = Veritrans_Snap::getSnapToken($payloads);
       Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
       Mage::log(json_encode($payloads),null,'snap.log',true);
-      $this->_getCheckout()->setToken($redirUrl);        
+      $this->_getCheckout()->setToken($redirUrl);       
+      $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snapinst/environment'));   
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
 
       //remove item

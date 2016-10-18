@@ -15,7 +15,7 @@
 
 require_once(Mage::getBaseDir('lib') . '/veritrans-php/Veritrans.php');
 
-class Midtrans_Snap_PaymentController
+class Midtrans_Snapmigs_PaymentController
     extends Mage_Core_Controller_Front_Action {
 
   /**
@@ -28,30 +28,20 @@ class Midtrans_Snap_PaymentController
   // The redirect action is triggered when someone places an order,
   // redirecting to Veritrans payment page.
   public function redirectAction() {
+    error_log('masuk redirect action');
     $orderIncrementId = $this->_getCheckout()->getLastRealOrderId();
     $order = Mage::getModel('sales/order')
         ->loadByIncrementId($orderIncrementId);
     $sessionId = Mage::getSingleton('core/session');
 
-    /* send an order email when redirecting to payment page although payment
-       has not been completed. */
-    /*$order->setState(Mage::getStoreConfig('payment/snap/'),true,
-        'New order, waiting for payment.');
-    $order->sendNewOrderEmail();
-    $order->setEmailSent(true);*/
-
-    $payment_type = Mage::getStoreConfig('payment/snap/payment_types');
-
     Veritrans_Config::$isProduction =
-        Mage::getStoreConfig('payment/snap/environment') == 'production'
+        Mage::getStoreConfig('payment/snapmigs/environment') == 'production'
         ? true : false;
-
+    Mage::log('environment'.Mage::getStoreConfig('payment/snapmigs/environment'),null,'snap.log',true);
     Veritrans_Config::$serverKey =
-        Mage::getStoreConfig('payment/snap/server_key');
-    Mage::log('server key'.Mage::getStoreConfig('payment/snap/server_key'),null,'snap.log',true);
-    Veritrans_Config::$is3ds =
-        Mage::getStoreConfig('payment/snap/enable_3d_secure') == '1'
-        ? true : false;
+        Mage::getStoreConfig('payment/snapmigs/server_key');
+    Mage::log('server key'.Mage::getStoreConfig('payment/snapmigs/server_key'),null,'snap.log',true);
+    Veritrans_Config::$is3ds = true;
     Veritrans_Config::$isSanitized = true;
 
     $transaction_details = array();
@@ -159,7 +149,7 @@ class Midtrans_Snap_PaymentController
     if ($current_currency != 'IDR') {
       $conversion_func = function ($non_idr_price) {
           return $non_idr_price *
-              Mage::getStoreConfig('payment/snap/conversion_rate');
+              Mage::getStoreConfig('payment/snapmigs/conversion_rate');
         };
       foreach ($item_details as &$item) {
         $item['price'] =
@@ -174,25 +164,32 @@ class Midtrans_Snap_PaymentController
       unset($each);
     }
 
-
-    $payloads = array();
-    $payloads['transaction_details'] = $transaction_details;
-    $payloads['item_details']        = $item_details;
-    $payloads['customer_details']    = $customer_details;
-
-
     $totalPrice = 0;
 
     foreach ($item_details as $item) {
       $totalPrice += $item['price'] * $item['quantity'];
     }
+    $bank = Mage::getStoreConfig('payment/snapmigs/bank');
+    
+    $credit_card['channel'] = "migs";
+    $credit_card['bank'] = $bank;
+  
+
+    $payloads = array();
+    $payloads['transaction_details'] = $transaction_details;
+    $payloads['enabled_payments']    = array('credit_card');
+    $payloads['item_details']        = $item_details;
+    $payloads['customer_details']    = $customer_details;    
+    $payloads['credit_card'] = $credit_card;
+
     Mage::log(json_encode($payloads),null,'snap.log',true);
+    
     try {
       $redirUrl = Veritrans_Snap::getSnapToken($payloads);
       Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
       Mage::log(json_encode($payloads),null,'snap.log',true);
-      $this->_getCheckout()->setToken($redirUrl);  
-      $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snap/environment'));  
+      $this->_getCheckout()->setToken($redirUrl);        
+      $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snapmigs/environment'));
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
 
       //remove item
@@ -220,123 +217,6 @@ class Midtrans_Snap_PaymentController
     catch (Exception $e) {
       error_log($e->getMessage());
       Mage::log('error:'.print_r($e->getMessage(),true),null,'snap.log',true);
-    }
-  }
-
-  // The response action is triggered when your gateway sends back a response
-  // after processing the customer's payment, we will not update to success
-  // because success is valid when notification (security reason)
-  public function responseAction() {
-    //var_dump($_POST); use for debugging value.
-    if($_GET['order_id']) {
-      $orderId = $_GET['order_id']; // Generally sent by gateway
-      $status = $_GET['status_code'];
-      if($status == '200' || $status == '201' && !is_null($orderId) && $orderId != '') {
-        // Redirected by Veritrans, if ok
-        Mage::getSingleton('checkout/session')->unsQuoteId();
-        Mage_Core_Controller_Varien_Action::_redirect(
-            'checkout/onepage/success', array('_secure'=>false));
-      }
-      else {
-        // There is a problem in the response we got
-        $this->cancelAction();
-        Mage_Core_Controller_Varien_Action::_redirect(
-            'checkout/onepage/failure', array('_secure'=>true));
-      }
-    }
-    else{
-      Mage_Core_Controller_Varien_Action::_redirect('');
-    }
-  }
-
-  // Veritrans will send notification of the payment status, this is only way we
-  // make sure that the payment is successed, if success send the item(s) to
-  // customer :p
-  public function notificationAction() {
-
-    Veritrans_Config::$isProduction =
-        Mage::getStoreConfig('payment/snap/environment') == 'production' ? true : false;
-    Veritrans_Config::$serverKey = Mage::getStoreConfig('payment/snap/server_key_v2');
-    $notif = new Veritrans_Notification();
-    Mage::log('get status result'.print_r($notif,true),null,'snap.log',true);
-
-    $order = Mage::getModel('sales/order');
-    $order->loadByIncrementId($notif->order_id);
-
-    $transaction = $notif->transaction_status;
-    $fraud = $notif->fraud_status;
-    $payment_type = $notif->payment_type;
-
-    if ($transaction == 'capture') {
-        if ($fraud == 'challenge') {
-          $order->setStatus(Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW);
-        }
-        else if ($fraud == 'accept') {
-          $invoice = $order->prepareInvoice()
-            ->setTransactionId($order->getId())
-            ->addComment('Payment successfully processed by Veritrans.')
-            ->register()
-            ->pay();
-
-          $transaction_save = Mage::getModel('core/resource_transaction')
-            ->addObject($invoice)
-            ->addObject($invoice->getOrder());
-
-          $transaction_save->save();
-
-          $order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
-          $order->sendOrderUpdateEmail(true,
-              'Thank you, your payment is successfully processed.');
-        }
-    }
-    else if ($transaction == 'cancel' || $transaction == 'deny' ) {
-       $order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
-    }   
-   else if ($transaction == 'settlement') {
-      
-      if($payment_type != 'credit_card'){
-
-        $invoice = $order->prepareInvoice()
-            ->setTransactionId($order->getId())
-            ->addComment('Payment successfully processed by Veritrans.')
-            ->register()
-            ->pay();
-
-          $transaction_save = Mage::getModel('core/resource_transaction')
-            ->addObject($invoice)
-            ->addObject($invoice->getOrder());
-
-          $transaction_save->save();
-
-          $order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
-          $order->sendOrderUpdateEmail(true,
-              'Thank you, your payment is successfully processed.');
-      }
-    }
-   else if ($transaction == 'pending') {
-     $order->setStatus(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-     $order->sendOrderUpdateEmail(true,
-            'Thank you, your payment is successfully processed.');
-    }
-    else if ($transaction == 'cancel') {
-     $order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
-    }
-    else {
-      $order->setStatus(Mage_Sales_Model_Order::STATUS_FRAUD);
-    }
-    $order->save();
-  }
-
-  // The cancel action is triggered when an order is to be cancelled
-  public function cancelAction() {
-    if (Mage::getSingleton('checkout/session')->getLastRealOrderId()) {
-        $order = Mage::getModel('sales/order')->loadByIncrementId(
-            Mage::getSingleton('checkout/session')->getLastRealOrderId());
-        if($order->getId()) {
-      // Flag the order as 'cancelled' and save it
-          $order->cancel()->setState(Mage_Sales_Model_Order::STATE_CANCELED,
-              true, 'Gateway has declined the payment.')->save();
-        }
     }
   }
 

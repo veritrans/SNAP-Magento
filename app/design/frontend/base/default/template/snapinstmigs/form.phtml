@@ -18,5 +18,8 @@ $amount = Mage::getStoreConfig('payment/snapinst/threshold');
             <img src="<?php echo $this->getSkinUrl('images/we use veritrans.png') ?>"/> 
         </div>
         To proceed with installment minimum shopping cart amount must be equal or greater than <?php echo $amount;?>
+        <div>
+        	<?php echo $this->getFormMessage(); ?>
+        </div>	
     </li>
 </ul>
