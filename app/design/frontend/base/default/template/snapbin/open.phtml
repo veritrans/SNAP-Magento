@@ -27,11 +27,14 @@
 $token = Mage::getSingleton('checkout/session')->getToken();
 $_order = new Mage_Sales_Model_Order();
 $orderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+$env = Mage::getSingleton('checkout/session')->getEnv();
+error_log($env);
 //echo $token;
 //echo $orderId;
 //print_r($_order);
 $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
 //print_r($order);
+
 ?>
 
 <style>
@@ -43,7 +46,19 @@ $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
 
 <div class="box">
   <div class="box-content">
-    <script src="https://app.sandbox.veritrans.co.id/snap/snap.js"></script>
+    <?php
+    if ($env == 'production') {
+    ?>
+      <script src="https://app.midtrans.com/snap/snap.js"></script>
+    <?php
+    }
+    else{
+    ?>
+      <script src="https://app.sandbox.midtrans.com/snap/snap.js"></script>
+    <?php
+    }
+    ?>
+    
     <div id="result-type"></div>
     <div id="result-data"></div>
     <div id="status-message"></div>
