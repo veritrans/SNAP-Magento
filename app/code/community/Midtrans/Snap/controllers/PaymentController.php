@@ -256,7 +256,7 @@ class Midtrans_Snap_PaymentController
 
     Veritrans_Config::$isProduction =
         Mage::getStoreConfig('payment/snap/environment') == 'production' ? true : false;
-    Veritrans_Config::$serverKey = Mage::getStoreConfig('payment/snap/server_key_v2');
+    Veritrans_Config::$serverKey = Mage::getStoreConfig('payment/snap/server_key');
     $notif = new Veritrans_Notification();
     Mage::log('get status result'.print_r($notif,true),null,'snap.log',true);
 
