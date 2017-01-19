@@ -248,6 +248,26 @@ class Midtrans_Snap_PaymentController
       Mage_Core_Controller_Varien_Action::_redirect('');
     }
   }
+  // Response early with 200 OK status for Midtrans notification & handle HTTP GET
+  public function earlyResponse(){
+    if ( $_SERVER['REQUEST_METHOD'] == 'GET' ){
+      die('This endpoint should not be opened using browser (HTTP GET). This endpoint is for Midtrans notification URL (HTTP POST)');
+      exit();
+    }
+
+    ob_start();
+
+    $input_source = "php://input";
+    $raw_notification = json_decode(file_get_contents($input_source), true);
+    echo "Notification Received: \n";
+    print_r($raw_notification);
+    
+    header('Connection: close');
+    header('Content-Length: '.ob_get_length());
+    ob_end_flush();
+    ob_flush();
+    flush();
+  }
 
   // Veritrans will send notification of the payment status, this is only way we
   // make sure that the payment is successed, if success send the item(s) to
@@ -256,7 +276,8 @@ class Midtrans_Snap_PaymentController
 
     Veritrans_Config::$isProduction =
         Mage::getStoreConfig('payment/snap/environment') == 'production' ? true : false;
-    Veritrans_Config::$serverKey = Mage::getStoreConfig('payment/snap/server_key_v2');
+    Veritrans_Config::$serverKey = Mage::getStoreConfig('payment/snap/server_key');
+    $this->earlyResponse();
     $notif = new Veritrans_Notification();
     Mage::log('get status result'.print_r($notif,true),null,'snap.log',true);
 
