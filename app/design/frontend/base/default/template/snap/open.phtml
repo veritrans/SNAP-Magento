@@ -50,7 +50,7 @@ $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
     <?php
     if ($env == 'production') {
     ?>
-      <script src="https://app.midtrans.com/snap/snap.js" data-client-key="<?=$client_key?>"</script>
+      <script src="https://app.midtrans.com/snap/snap.js" data-client-key="<?=$client_key?>"></script>
     <?php
     }
     else{
