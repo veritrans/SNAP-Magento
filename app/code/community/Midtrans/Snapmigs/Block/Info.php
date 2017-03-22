@@ -14,7 +14,7 @@ class Midtrans_Snapmigs_Block_Info extends Mage_Payment_Block_Info
     {
         parent::_construct();
 	$this->setInfoMessage( Mage::helper('snapmigs/data')->_getInfoTypeIsImage() == true ? 
-		'<img src="'. $this->getSkinUrl('images/Veritrans.png'). '"/>' : '<b>'. Mage::helper('snapmigs/data')->_getTitle() . '</b>');
+		'<img src="'. $this->getSkinUrl('images/midtrans.png'). '"/>' : '<b>'. Mage::helper('snapmigs/data')->_getTitle() . '</b>');
 	$this->setPaymentMethodTitle( Mage::helper('snapmigs/data')->_getTitle() );
         $this->setTemplate('snapmigs/info.phtml');
     }
