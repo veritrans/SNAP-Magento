@@ -174,11 +174,34 @@ class Midtrans_Snap_PaymentController
       unset($each);
     }
 
+    $credit_card['secure'] = true;
+    $credit_card['save_card'] = true;
 
     $payloads = array();
     $payloads['transaction_details'] = $transaction_details;
     $payloads['item_details']        = $item_details;
     $payloads['customer_details']    = $customer_details;
+
+    if(Mage::getStoreConfig('payment/snap/oneclick') == 1){
+      $payloads['credit_card'] = $credit_card;
+      //$payloads['user_id'] = crypt($order_billing_address->getEmail(), $serverKey);
+      $payloads['user_id'] = hash('sha256' , $order_billing_address->getEmail());
+
+    }
+
+    $expire = explode(",", Mage::getStoreConfig('payment/snap/expiry'));
+    $expiry_unit =  $expire[1];
+    $expiry_duration = (int)$expire[0];
+    error_log($expiry_unit . $expiry_duration);
+
+    if (!empty($expiry_unit) && !empty($expiry_duration)){
+          $time = time();
+          $payloads['expiry'] = array(
+            'start_time' => date("Y-m-d H:i:s O",$time),
+            'unit' => $expiry_unit, 
+            'duration'  => (int)$expiry_duration
+          );
+    }  
 
 
     $totalPrice = 0;
@@ -189,8 +212,8 @@ class Midtrans_Snap_PaymentController
     Mage::log(json_encode($payloads),null,'snap.log',true);
     try {
       $redirUrl = Veritrans_Snap::getSnapToken($payloads);
-      Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
-      Mage::log(json_encode($payloads),null,'snap.log',true);
+      //Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
+      Mage::log('redirUrl = '.$redirUrl,null,'snap.log',true);
       $this->_getCheckout()->setToken($redirUrl);  
       $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snap/environment'));  
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
@@ -274,6 +297,8 @@ class Midtrans_Snap_PaymentController
   // customer :p
   public function notificationAction() {
 
+    //echo "hahaha";
+    error_log('payment notification');
     Veritrans_Config::$isProduction =
         Mage::getStoreConfig('payment/snap/environment') == 'production' ? true : false;
     Veritrans_Config::$serverKey = Mage::getStoreConfig('payment/snap/server_key');
