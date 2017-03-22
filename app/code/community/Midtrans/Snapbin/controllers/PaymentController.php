@@ -39,7 +39,7 @@ class Midtrans_Snapbin_PaymentController
         ? true : false;
     Mage::log('environment'.Mage::getStoreConfig('payment/snapbin/environment'),null,'snap.log',true);
     Veritrans_Config::$serverKey =
-        Mage::getStoreConfig('payment/snapio/server_key');
+        Mage::getStoreConfig('payment/snapbin/server_key');
     Mage::log('server key'.Mage::getStoreConfig('payment/snapbin/server_key'),null,'snap.log',true);
     Veritrans_Config::$is3ds = true;
     Veritrans_Config::$isSanitized = true;
@@ -170,21 +170,18 @@ class Midtrans_Snapbin_PaymentController
       $totalPrice += $item['price'] * $item['quantity'];
     }
     $bin = explode(',', Mage::getStoreConfig('payment/snapbin/bin'));
-    $credit_card['save_card'] = true;
     $credit_card['whitelist_bins'] = $bin;
-    $installment = array();
-    $installment_term = array();
-    
-    $installment_term['offline'] = array(3,6,12);
-
-
-    $installment['required'] = TRUE;
-    $installment['terms'] = $installment_term;    
-
-    $credit_card['installment'] = $installment;
-
 
     $payloads = array();
+
+    if(Mage::getStoreConfig('payment/snapbin/oneclick') == 1){
+      
+      $credit_card['secure'] = true;
+      $credit_card['save_card'] = true;
+      //$payloads['user_id'] = crypt($order_billing_address->getEmail(), $serverKey);
+      $payloads['user_id'] = hash('sha256' , $order_billing_address->getEmail());
+    }
+
     $payloads['transaction_details'] = $transaction_details;
     $payloads['enabled_payments']    = array('credit_card');
     $payloads['item_details']        = $item_details;
