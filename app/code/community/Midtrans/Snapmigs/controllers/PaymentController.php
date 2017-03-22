@@ -173,9 +173,16 @@ class Midtrans_Snapmigs_PaymentController
     
     $credit_card['channel'] = "migs";
     $credit_card['bank'] = $bank;
-  
 
     $payloads = array();
+
+    if(Mage::getStoreConfig('payment/snapbin/oneclick') == 1){
+      
+      $credit_card['secure'] = true;
+      $credit_card['save_card'] = true;
+      $payloads['user_id'] = hash('sha256' , $order_billing_address->getEmail());
+    }
+
     $payloads['transaction_details'] = $transaction_details;
     $payloads['enabled_payments']    = array('credit_card');
     $payloads['item_details']        = $item_details;
