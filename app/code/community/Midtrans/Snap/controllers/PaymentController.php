@@ -213,16 +213,27 @@ class Midtrans_Snap_PaymentController
     try {
       $redirUrl = Veritrans_Snap::getSnapToken($payloads);
       //Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
-      Mage::log('redirUrl = '.$redirUrl,null,'snap.log',true);
+      Mage::log('snap token from controller = '.$redirUrl,null,'snap.log',true);
       $this->_getCheckout()->setToken($redirUrl);  
       $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snap/environment'));  
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
+
+      Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl().'snap/payment/opensnap');
 
       //remove item
       foreach( Mage::getSingleton('checkout/session')->getQuote()->getItemsCollection() as $item ){
             Mage::getSingleton('checkout/cart')->removeItem( $item->getId() )->save();
       }
 
+    }
+    catch (Exception $e) {
+      error_log($e->getMessage());
+      Mage::log('error:'.print_r($e->getMessage(),true),null,'snap.log',true);
+    }
+  }
+
+  public function opensnapAction(){
+      
       $template = 'snap/open.phtml';
 
       //Get current layout state
@@ -238,12 +249,6 @@ class Midtrans_Snap_PaymentController
       $this->getLayout()->getBlock('content')->append($block);
       $this->_initLayoutMessages('core/session'); 
       $this->renderLayout();
-
-    }
-    catch (Exception $e) {
-      error_log($e->getMessage());
-      Mage::log('error:'.print_r($e->getMessage(),true),null,'snap.log',true);
-    }
   }
 
   // The response action is triggered when your gateway sends back a response
