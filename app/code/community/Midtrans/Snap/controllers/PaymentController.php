@@ -218,12 +218,14 @@ class Midtrans_Snap_PaymentController
       $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snap/environment'));  
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
 
-      Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl().'snap/payment/opensnap');
-
-      //remove item
       foreach( Mage::getSingleton('checkout/session')->getQuote()->getItemsCollection() as $item ){
             Mage::getSingleton('checkout/cart')->removeItem( $item->getId() )->save();
       }
+
+      Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl().'snap/payment/opensnap');
+
+      //remove item
+      
 
     }
     catch (Exception $e) {

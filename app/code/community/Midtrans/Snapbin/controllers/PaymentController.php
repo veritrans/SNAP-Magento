@@ -194,6 +194,7 @@ class Midtrans_Snapbin_PaymentController
       $redirUrl = Veritrans_Snap::getSnapToken($payloads);
       Mage::log('debug:'.print_r($payloads,true),null,'snap.log',true);
       Mage::log(json_encode($payloads),null,'snap.log',true);
+      Mage::log('snap token from controller = '.$redirUrl,null,'snap.log',true);
       $this->_getCheckout()->setToken($redirUrl);        
       $this->_getCheckout()->setEnv(Mage::getStoreConfig('payment/snapbin/environment'));  
       //$this->_redirectUrl(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'snap/payment/open');
@@ -203,6 +204,18 @@ class Midtrans_Snapbin_PaymentController
             Mage::getSingleton('checkout/cart')->removeItem( $item->getId() )->save();
       }
 
+      Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl().'snap/payment/opensnap');
+
+    }
+    catch (Exception $e) {
+      error_log($e->getMessage());
+      Mage::log('error:'.print_r($e->getMessage(),true),null,'snap.log',true);
+    }
+  }
+
+
+  public function opensnapAction(){
+      
       $template = 'snap/open.phtml';
 
       //Get current layout state
@@ -218,13 +231,8 @@ class Midtrans_Snapbin_PaymentController
       $this->getLayout()->getBlock('content')->append($block);
       $this->_initLayoutMessages('core/session'); 
       $this->renderLayout();
-
-    }
-    catch (Exception $e) {
-      error_log($e->getMessage());
-      Mage::log('error:'.print_r($e->getMessage(),true),null,'snap.log',true);
-    }
   }
+
 
   /**
    * Convert 2 digits coundry code to 3 digit country code

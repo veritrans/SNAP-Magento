@@ -209,7 +209,17 @@ class Midtrans_Snapio_PaymentController
       foreach( Mage::getSingleton('checkout/session')->getQuote()->getItemsCollection() as $item ){
             Mage::getSingleton('checkout/cart')->removeItem( $item->getId() )->save();
       }
+      Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl().'snap/payment/opensnap');
 
+    }
+    catch (Exception $e) {
+      error_log($e->getMessage());
+      Mage::log('error:'.print_r($e->getMessage(),true),null,'snap.log',true);
+    }
+  }
+
+  public function opensnapAction(){
+      
       $template = 'snap/open.phtml';
 
       //Get current layout state
@@ -225,12 +235,6 @@ class Midtrans_Snapio_PaymentController
       $this->getLayout()->getBlock('content')->append($block);
       $this->_initLayoutMessages('core/session'); 
       $this->renderLayout();
-
-    }
-    catch (Exception $e) {
-      error_log($e->getMessage());
-      Mage::log('error:'.print_r($e->getMessage(),true),null,'snap.log',true);
-    }
   }
 
   /**
