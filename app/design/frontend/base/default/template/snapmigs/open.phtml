@@ -192,6 +192,14 @@ var baseUrl = "<?=$base_url?>";
           //document.getElementById("result-type").html = "status message =" + data.status_message;
         }
 
+        mixpanel.track(
+          'pg-pay', {
+            merchant_id: merchantId,
+            plugin_name: "mage19_cc_migs",
+            snap_token: snapToken
+          }
+        );
+
       snap.pay(snapToken, {
           
           onSuccess: function(result){

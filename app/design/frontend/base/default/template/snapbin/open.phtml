@@ -196,6 +196,14 @@ Mage::log($token.$client_key.$merchant_id,null,'snap.log',true);
           //document.getElementById("result-type").html = "status message =" + data.status_message;
         }
 
+        mixpanel.track(
+          'pg-pay', {
+            merchant_id: merchantId,
+            plugin_name: "mage19_bin_promo",
+            snap_token: snapToken
+          }
+        );
+
       snap.pay(snapToken, {
           
           onSuccess: function(result){
