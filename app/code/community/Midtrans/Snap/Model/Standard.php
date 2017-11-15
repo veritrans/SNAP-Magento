@@ -21,5 +21,6 @@ class Midtrans_Snap_Model_Standard extends Mage_Payment_Model_Method_Abstract {
 	public function getOrderPlaceRedirectUrl() {
 		return Mage::getUrl('snap/payment/redirect', array('_secure' => true));
 	}
+
 }
 ?>

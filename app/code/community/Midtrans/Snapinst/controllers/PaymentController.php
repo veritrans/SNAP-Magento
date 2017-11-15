@@ -211,7 +211,7 @@ class Midtrans_Snapinst_PaymentController
             Mage::getSingleton('checkout/cart')->removeItem( $item->getId() )->save();
       }
 
-      Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl().'snap/payment/opensnap');
+      Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl().'snapinst/payment/opensnap');
 
     }
     catch (Exception $e) {
@@ -222,7 +222,7 @@ class Midtrans_Snapinst_PaymentController
 
   public function opensnapAction(){
       
-      $template = 'snap/open.phtml';
+      $template = 'snapinst/open.phtml';
 
       //Get current layout state
       $this->loadLayout();          

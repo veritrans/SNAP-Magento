@@ -4,7 +4,7 @@
     <payment>
       <groups>
         <snap translate="label comment" module="snap">
-          <label>Midtrans ver 1.0.0</label>
+          <label>Midtrans ver 1.1.1</label>
           <frontend_type>text</frontend_type>
           <sort_order>1</sort_order>
           <show_in_default>1</show_in_default>
@@ -50,6 +50,15 @@
               <show_in_store>1</show_in_store>
               <comment>This conversion rate will be used if the IDR currency is not installed in your system.</comment>
             </conversion_rate>
+            <merchant_id>
+              <label>Merchant Id</label>
+              <config_path>payment/snap/merchant_id</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>5</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </merchant_id>
             <client_key_v2>
               <label>Client Key</label>
               <config_path>payment/snap/client_key</config_path>

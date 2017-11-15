@@ -48,11 +48,13 @@ class Midtrans_Snap_PaymentController
 
     Veritrans_Config::$serverKey =
         Mage::getStoreConfig('payment/snap/server_key');
-    Mage::log('server key'.Mage::getStoreConfig('payment/snap/server_key'),null,'snap.log',true);
+
     Veritrans_Config::$is3ds =
         Mage::getStoreConfig('payment/snap/enable_3d_secure') == '1'
         ? true : false;
     Veritrans_Config::$isSanitized = true;
+
+    Mage::log($mixpanel_key.Veritrans_Config::$isProduction,null,'snap.log',true);
 
     $transaction_details = array();
     $transaction_details['order_id'] = $orderIncrementId;
