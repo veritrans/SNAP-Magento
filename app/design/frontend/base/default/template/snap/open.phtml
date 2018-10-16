@@ -134,7 +134,7 @@ var baseUrl = "<?=$base_url?>";
     function trackResult(token, merchant_id, plugin_name, status, result) {
           console.log("called trackResult");
           var eventNames = {
-            pay: 'pg-pay'
+            pay: 'pg-pay',
             success: 'pg-success',
             pending: 'pg-pending',
             error: 'pg-error',

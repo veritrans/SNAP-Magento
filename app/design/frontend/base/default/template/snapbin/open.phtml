@@ -133,6 +133,7 @@ Mage::log($token.$client_key.$merchant_id,null,'snap.log',true);
     function trackResult(token, merchant_id, plugin_name, status, result) {
           console.log("called trackResult");
           var eventNames = {
+            pay: 'pg-pay',
             success: 'pg-success',
             pending: 'pg-pending',
             error: 'pg-error',
@@ -152,8 +153,6 @@ Mage::log($token.$client_key.$merchant_id,null,'snap.log',true);
             }
           );
     }
-
-
 
     var resultType = document.getElementById('result-type');
     var resultData = document.getElementById('result-data');
@@ -196,13 +195,7 @@ Mage::log($token.$client_key.$merchant_id,null,'snap.log',true);
           //document.getElementById("result-type").html = "status message =" + data.status_message;
         }
 
-        mixpanel.track(
-          'pg-pay', {
-            merchant_id: merchantId,
-            plugin_name: "mage19_bin_promo",
-            snap_token: snapToken
-          }
-        );
+        trackResult(snapToken, merchantId, 'bin_promo', 'pay', null);
 
       snap.pay(snapToken, {
           
