@@ -134,6 +134,7 @@ var baseUrl = "<?=$base_url?>";
     function trackResult(token, merchant_id, plugin_name, status, result) {
           console.log("called trackResult");
           var eventNames = {
+            pay: 'pg-pay'
             success: 'pg-success',
             pending: 'pg-pending',
             error: 'pg-error',
@@ -195,13 +196,7 @@ var baseUrl = "<?=$base_url?>";
           //document.getElementById("result-type").html = "status message =" + data.status_message;
         }
 
-        mixpanel.track(
-          'pg-pay', {
-            merchant_id: merchantId,
-            plugin_name: "mage19_fullpayment",
-            snap_token: snapToken
-          }
-        );
+        trackResult(snapToken, merchantId, 'fullpayment', 'pay', null);
 
       snap.pay(snapToken, {
           
