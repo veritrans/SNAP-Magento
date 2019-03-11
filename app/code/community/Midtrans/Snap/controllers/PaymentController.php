@@ -323,44 +323,37 @@ class Midtrans_Snap_PaymentController
     $payment_type = $notif->payment_type;
 
     if ($transaction == 'capture') {
-        if ($fraud == 'challenge') {
-          $order->setStatus(Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW);
-        }
-        else if ($fraud == 'accept') {
-          $invoice = $order->prepareInvoice()
-            ->setTransactionId($order->getId())
-            ->addComment('Payment successfully processed by Veritrans.')
-            ->register()
-            ->pay();
+      if ($fraud == 'challenge') {
+        $order->setStatus(Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW);
+      }
+      else if ($fraud == 'accept') {
+        $invoice = $order->prepareInvoice()
+          ->setTransactionId($order->getId())
+          ->addComment('Payment successfully processed by Midtrans.')
+          ->register()
+          ->pay();
 
-          $transaction_save = Mage::getModel('core/resource_transaction')
-            ->addObject($invoice)
-            ->addObject($invoice->getOrder());
+        $transaction_save = Mage::getModel('core/resource_transaction')
+          ->addObject($invoice)
+          ->addObject($invoice->getOrder());
+        $transaction_save->save();
 
-          $transaction_save->save();
-
-          $order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
-          $order->sendOrderUpdateEmail(true,
-              'Thank you, your payment is successfully processed.');
-        }
-    }
-    else if ($transaction == 'cancel' || $transaction == 'deny' ) {
-       $order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
-    }   
-   else if ($transaction == 'settlement') {
-      
+        $order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
+        $order->sendOrderUpdateEmail(true,
+            'Thank you, your payment is successfully processed.');
+      }
+    } 
+    else if ($transaction == 'settlement') {
       if($payment_type != 'credit_card'){
-
         $invoice = $order->prepareInvoice()
             ->setTransactionId($order->getId())
-            ->addComment('Payment successfully processed by Veritrans.')
+            ->addComment('Payment successfully processed by Midtrans.')
             ->register()
             ->pay();
 
           $transaction_save = Mage::getModel('core/resource_transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
-
           $transaction_save->save();
 
           $order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
@@ -368,16 +361,17 @@ class Midtrans_Snap_PaymentController
               'Thank you, your payment is successfully processed.');
       }
     }
-   else if ($transaction == 'pending') {
+    else if ($transaction == 'pending') {
      $order->setStatus(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
      $order->sendOrderUpdateEmail(true,
             'Thank you, your payment is successfully processed.');
     }
-    else if ($transaction == 'cancel') {
-     $order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
-    }
-    else {
-      $order->setStatus(Mage_Sales_Model_Order::STATUS_FRAUD);
+    else if ($transaction == 'cancel' || $transaction == 'deny' || $transaction == 'expire') {
+      if ($order->canCancel()) {
+        $order->cancel();
+        $order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
+        $order->setState(Mage_Sales_Model_Order::STATE_CANCELED,true, 'Gateway has Notif Failure Transaction.');
+      }
     }
     $order->save();
   }
