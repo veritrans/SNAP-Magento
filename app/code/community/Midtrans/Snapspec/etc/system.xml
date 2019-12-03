@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <sections>
+    <payment>
+      <groups>
+        <snapspec translate="label comment" module="snapspec">
+          <label>Midtrans Spesific Payement 1.1.2</label>
+          <frontend_type>text</frontend_type>
+          <sort_order>2</sort_order>
+          <show_in_default>2</show_in_default>
+          <show_in_website>2</show_in_website>
+          <show_in_store>2</show_in_store>
+          <fields>
+            <active translate="label">
+              <label>Enabled</label>
+              <config_path>payment/snapspec/active</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </active>
+            <title translate="label">
+              <label>Title</label>
+              <config_path>payment/snapspec/title</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+            <order_status translate="label">
+              <label>New Order Status</label>
+              <config_path>payment/snapspec/order_status</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_order_status</source_model>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </order_status>
+            <conversion_rate translate="label">
+              <label>Conversion Rate</label>
+              <config_path>payment/snapspec/conversion_rate</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>This conversion rate will be used if the IDR currency is not installed in your system.</comment>
+            </conversion_rate>
+            <merchant_id>
+              <label>Merchant Id</label>
+              <config_path>payment/snapspec/merchant_id</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>5</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </merchant_id>
+            <client_key_v2>
+              <label>Client Key</label>
+              <config_path>payment/snapspec/client_key</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>6</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </client_key_v2>
+            <server_key_v2>
+              <label>Server Key</label>
+              <config_path>payment/snapspec/server_key</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>7</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </server_key_v2>
+            <environment>
+              <label>Environment</label>
+              <config_path>payment/snapspec/environment</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>snap/system_config_source_api_environment</source_model>
+              <sort_order>8</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Change to 'Production' once your store is going live</comment>
+            </environment>
+            <bin_filter>
+              <label>Bin Filter</label>
+              <config_path>payment/snapspec/bin</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>9</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Bin number eligible for installment. e.g 4811,5211,42,455612</comment>
+            </bin_filter>
+            <acquiring_bank>
+              <label>Acquiring Bank</label>
+              <config_path>payment/snapspec/bank</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Input the desired acquiring bank. e.g: bni. Leave blank if you are not sure!</comment>
+            </acquiring_bank>
+            <enable_one_click>
+              <label>Save Card</label>
+              <config_path>payment/snapspec/oneclick</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>11</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Leave it disabled if you are not sure! Please contact us if you wish to enable this feature in the Production environment.</comment>
+            </enable_one_click>
+            <enable_payment>
+              <label>Allowed Payment Method</label>
+              <config_path>payment/snapspec/enablepayment</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>12</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Customize allowed payment method, separate payment method code with coma. e.g: bank_transfer,credit_card,gopay.Leave it default if you are not sure.</comment>
+            </enable_payment>
+            <enable_snap_redirect>
+              <label>Enable Snap Redirect</label>
+              <config_path>payment/snapspec/snapredirect</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>13</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>This is to change Snap PopUp to Redirect Mode.</comment>
+            </enable_snap_redirect>
+            <form_message>
+              <label>Form Message</label>
+              <config_path>payment/snapspec/form_message</config_path>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>14</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </form_message>
+            <info_type>
+              <label>Show Midtrans logo as Info?</label>
+              <frontend_type>select</frontend_type>
+              <config_path>payment/snapspec/info_type</config_path>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>15</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </info_type>
+            <allowspecific translate="label">
+              <label>Payment Applicable From</label>
+              <config_path>payment/snapspec/allowspecific</config_path>
+              <frontend_type>select</frontend_type>
+              <sort_order>16</sort_order>
+              <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </allowspecific>
+            <specificcountry translate="label">
+              <label>Countries Payment Applicable From</label>
+              <config_path>payment/snapspec/specificcountry</config_path>
+              <frontend_type>multiselect</frontend_type>
+              <sort_order>17</sort_order>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <allowspecific>1</allowspecific>
+              </depends>
+            </specificcountry>
+            <sort_order translate="label">
+              <label>Sort Order</label>
+              <config_path>payment/snapspec/sort_order</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>18</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </sort_order>
+          </fields>
+        </snapspec>
+      </groups>
+    </payment>
+  </sections>
+</config>
