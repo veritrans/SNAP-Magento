@@ -4,7 +4,7 @@
 		<reference name="head">
 			<action method="addItem">
 				<type>skin_js</type>
-				<script>js/veritrans_admin.js</script>
+				<script>js/midtrans_admin.js</script>
 			</action>
 		</reference>
 	</default>
