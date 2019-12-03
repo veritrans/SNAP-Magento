@@ -10,10 +10,10 @@ Veritrans payment gateway is an online payment gateway that is highly concerned 
 Payment Method Feature:
 
 - SNAP
-- SNAP Online Installment (BNI & Mandiri)
-- SNAP MIGS Installment
+- SNAP Spesific Payment Method
+- SNAP Online Installment
 - SNAP Offline Installment
-- SNAP Bin Filter
+
 
 ### Installation
 
