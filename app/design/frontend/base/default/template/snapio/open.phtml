@@ -23,7 +23,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php 
+<?php
 $token = Mage::getSingleton('checkout/session')->getToken();
 $_order = new Mage_Sales_Model_Order();
 $orderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
@@ -41,75 +41,79 @@ $base_url = Mage::getBaseUrl();
 </style>
 
 <div class="page-title">
-<h1>Your order has been received.</h1>
+    <h1>Your order has been received.</h1>
 </div>
 
 <div class="box">
-  <div class="box-content">
-    <?php
-    if ($env == 'production') {
-    ?>
-      <script src="https://app.midtrans.com/snap/snap.js" data-client-key="<?=$client_key?>"></script>
-    <?php
-    }
-    else{
-    ?>
-      <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?=$client_key?>"></script>
-    <?php
-    }
-    ?>
-    
-    <div id="result-type"></div>
-    <div id="result-data"></div>
-    <div id="status-message"></div>
-    <div id="status"></div>
-    <div id="additional-info"></div>
-  </div>
+    <div class="box-content">
+        <?php
+        if ($env == 'production') {
+            ?>
+            <script src="https://app.midtrans.com/snap/snap.js" data-client-key="<?= $client_key ?>"></script>
+        <?php
+        }
+        else{
+        ?>
+            <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?= $client_key ?>"></script>
+            <?php
+        }
+        ?>
+
+        <div id="result-type"></div>
+        <div id="result-data"></div>
+        <div id="status-message"></div>
+        <div id="status"></div>
+        <div id="additional-info"></div>
+    </div>
 </div>
 
 <div class="buttons-set">
-  <button type="button" title="Continue Shopping" class="button btn-continue" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span>Continue Shopping</span></span></button>
-</div>  
+    <button type="button" title="Continue Shopping" class="button btn-continue"
+            onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span>Continue Shopping</span></span>
+    </button>
+</div>
 <script type="text/javascript">
 
-var snapToken = "<?=$token?>";
-var merchantId = "<?=$merchant_id?>";
-var mixpanelKey = "<?=$mixpanel_key?>";
-var baseUrl = "<?=$base_url?>"; 
+    var snapToken = "<?=$token?>";
+    var merchantId = "<?=$merchant_id?>";
+    var mixpanelKey = "<?=$mixpanel_key?>";
+    var baseUrl = "<?=$base_url?>";
 
-    (function(e, a) {
+    (function (e, a) {
         if (!a.__SV) {
             var b = window;
             try {
                 var c, l, i, j = b.location,
                     g = j.hash;
-                c = function(a, b) {
+                c = function (a, b) {
                     return (l = a.match(RegExp(b + "=([^&]*)"))) ? l[1] : null
                 };
                 g && c(g, "state") && (i = JSON.parse(decodeURIComponent(c(g, "state"))), "mpeditor" === i.action && (b.sessionStorage.setItem("_mpcehash", g), history.replaceState(i.desiredHash || "", e.title, j.pathname + j.search)))
-            } catch (m) {}
+            } catch (m) {
+            }
             var k, h;
             window.mixpanel = a;
             a._i = [];
-            a.init = function(b, c, f) {
+            a.init = function (b, c, f) {
                 function e(b, a) {
                     var c = a.split(".");
                     2 == c.length && (b = b[c[0]], a = c[1]);
-                    b[a] = function() {
+                    b[a] = function () {
                         b.push([a].concat(Array.prototype.slice.call(arguments,
                             0)))
                     }
                 }
+
                 var d = a;
                 "undefined" !== typeof f ? d = a[f] = [] : f = "mixpanel";
                 d.people = d.people || [];
-                d.toString = function(b) {
+                d.toString = function (b) {
                     var a = "mixpanel";
                     "mixpanel" !== f && (a += "." + f);
                     b || (a += " (stub)");
                     return a
                 };
-                d.people.toString = function() {
+                d.people.toString = function () {
                     return d.toString(1) + ".people (stub)"
                 };
                 k = "disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
@@ -129,100 +133,89 @@ var baseUrl = "<?=$base_url?>";
     mixpanel.init(mixpanelKey);
 
     function trackResult(token, merchant_id, plugin_name, status, result) {
-          console.log("called trackResult");
-          var eventNames = {
+        console.log("called trackResult");
+        var eventNames = {
             pay: 'pg-pay',
             success: 'pg-success',
             pending: 'pg-pending',
             error: 'pg-error',
             close: 'pg-close'
-          };
-          mixpanel.track(
+        };
+        mixpanel.track(
             eventNames[status], {
-              merchant_id: merchant_id,
-              cms_name: 'Magento',
-              cms_version : '1.9',
-              plugin_name: plugin_name,
-              snap_token: token,
-              payment_type: result ? result.payment_type: null,
-              order_id: result ? result.order_id: null,
-              status_code: result ? result.status_code: null,
-              gross_amount: result && result.gross_amount ? Number(result.gross_amount) : null,
+                merchant_id: merchant_id,
+                cms_name: 'Magento',
+                cms_version: '1.9',
+                plugin_version: '1.1.2',
+                plugin_name: plugin_name,
+                snap_token: token,
+                payment_type: result ? result.payment_type : null,
+                order_id: result ? result.order_id : null,
+                status_code: result ? result.status_code : null,
+                gross_amount: result && result.gross_amount ? Number(result.gross_amount) : null,
             }
-          );
+        );
     }
-    
+
 
     var resultType = document.getElementById('result-type');
     var resultData = document.getElementById('result-data');
     var statusMessage = document.getElementById('status-message');
     var paymentStatus = document.getElementById('status');
     var additionalInfo = document.getElementById('additional-info');
-    
-      function changeResult(type,data){
-          // $("#result-type").val(type);
-          // $("#result-data").val(JSON.stringify(data));
-          //resultType.innerHTML = type;
-          console.log(JSON.stringify(data));
-          statusMessage.innerHTML = "<h2 class='sub-title'>" + data.status_message + "</h2>";
-          paymentStatus.innerHTML = "<p>Payment status : <b>" + data.transaction_status + "</b></p>";
 
-          if(data.payment_type == "bank_transfer")
-          {
+    function changeResult(type, data) {
+        console.log(JSON.stringify(data));
+        statusMessage.innerHTML = "<h2 class='sub-title'>" + data.status_message + "</h2>";
+        paymentStatus.innerHTML = "<p>Payment status : <b>" + data.transaction_status + "</b></p>";
+
+        if (data.payment_type == "bank_transfer") {
             console.log("payment == bank transfer");
-            if(data.bca_va_number != null){
-              
-              additionalInfo.innerHTML = "<p>BCA va number : <b>" + data.va_numbers['0'].va_number + "</b></p><p>Payment Instruction : <a href="+data.pdf_url+" target ='blank'>" + "Click here" + "</a></p>";
-            }else{
+            if (data.bca_va_number != null) {
 
-              additionalInfo.innerHTML = "<p>va number : <b>" + data.permata_va_number + "</b></p><p>Payment Instruction : <a href="+data.pdf_url+" target ='blank'>" + "Click here" + "</a></p>";
+                additionalInfo.innerHTML = "<p>BCA va number : <b>" + data.va_numbers['0'].va_number + "</b></p><p>Payment Instruction : <a href=" + data.pdf_url + " target ='blank'>" + "Click here" + "</a></p>";
+            } else {
+
+                additionalInfo.innerHTML = "<p>va number : <b>" + data.permata_va_number + "</b></p><p>Payment Instruction : <a href=" + data.pdf_url + " target ='blank'>" + "Click here" + "</a></p>";
             }
 
-          }else if(data.payment_type == "echannel"){
+        } else if (data.payment_type == "echannel") {
 
-            additionalInfo.innerHTML = "<p>Payment code : <b>" + data.bill_key + "</b></p><p>Company code : <b>" + data.biller_code + "</b></p><p>Payment Instruction : <a href="+data.pdf_url+" target ='blank'>" + "Click here" + "</a></p>";
-          
-          }
-          else if(data.payment_type == "cstore"){
+            additionalInfo.innerHTML = "<p>Payment code : <b>" + data.bill_key + "</b></p><p>Company code : <b>" + data.biller_code + "</b></p><p>Payment Instruction : <a href=" + data.pdf_url + " target ='blank'>" + "Click here" + "</a></p>";
 
-            additionalInfo.innerHTML = "<p>Payment code : <b>" + data.payment_code + "</b></p><p>Payment Instruction : <a href="+data.pdf_url+" target ='blank'>" + "Click here" + "</a></p>";
+        } else if (data.payment_type == "cstore") {
 
-          }
-
-          //resultData.innerHTML = JSON.stringify(data);
-
-          //document.getElementById("result-type").html = "status message =" + data.status_message;
+            additionalInfo.innerHTML = "<p>Payment code : <b>" + data.payment_code + "</b></p><p>Payment Instruction : <a href=" + data.pdf_url + " target ='blank'>" + "Click here" + "</a></p>";
         }
+    }
 
-        trackResult(snapToken, merchantId, 'installment_offline', 'pay', null);
+    trackResult(snapToken, merchantId, 'installment_offline', 'pay', null);
 
-      snap.pay(snapToken, {
-          
-          onSuccess: function(result){
+    snap.pay(snapToken, {
+
+        onSuccess: function (result) {
             trackResult(snapToken, merchantId, 'installment_offline', 'success', result);
             changeResult('success', result);
             console.log(result.status_message);
-            
-          },
-          onPending: function(result){
+
+        },
+        onPending: function (result) {
             trackResult(snapToken, merchantId, 'installment_offline', 'pending', result);
             changeResult('pending', result);
             console.log(result.status_message);
-            
-          },
-          onError: function(result){
+
+        },
+        onError: function (result) {
             trackResult(snapToken, merchantId, 'installment_offline', 'error', result);
             changeResult('error', result);
             console.log(result.status_message);
-            
-          },
-          onClose: function(){
+
+        },
+        onClose: function () {
             trackResult(snapToken, merchantId, 'installment_offline', 'close');
             console.log('customer closed the popup without finishing the payment');
             window.location.replace(baseUrl);
-          }
-    
-          });
+        }
 
-    
-    </script>
+    });
+</script>
