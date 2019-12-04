@@ -5,7 +5,7 @@ Let your Magento store integrated with Veritras payment gateway.
 
 ### Description
 
-Veritrans payment gateway is an online payment gateway that is highly concerned with customer experience (UX). They strive to make payments simple for both the merchant and customers. With this plugin you can make your Magento store using Veritrans payment.
+Midtrans payment gateway is an online payment gateway that is highly concerned with customer experience (UX). They strive to make payments simple for both the merchant and customers. With this plugin you can make your Magento store using Veritrans payment.
 
 Payment Method Feature:
 
@@ -13,7 +13,6 @@ Payment Method Feature:
 - SNAP Spesific Payment Method
 - SNAP Online Installment
 - SNAP Offline Installment
-
 
 ### Installation
 
@@ -30,9 +29,12 @@ Payment Method Feature:
 
 3. Copy the 'app', 'lib' and 'skin' folders into magento root folder
 
-4. In your Magento admin area, enable the Veritrans plug-in and insert your merchant details (Server key and client key)
+4. In your Magento admin area, enable the Midtrans plug-in and insert your merchant details (Server key and client key)
 
-5. Login into your Veritrans account and change the Payment Notification URL in Settings to `http://[your shop's homepage]/snap/payment/notification`.
+### Midtrans&nbsp;  MAP Configuration
+1. Login to your [Midtrans&nbsp;  Account](https://dashboard.midtrans.com), select your environment (sandbox/production), go to menu `settings > configuration`
+   * Payment Notification URL: 
+    >`http://[your-site-url]/snap/payment/notification`
 
 #### Get help
 
