@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Midtrans_Snapinst>
-      <version>1.0.0</version>
+      <version>1.1.2</version>
     </Midtrans_Snapinst>
   </modules>
   <global>
@@ -37,10 +37,10 @@
         <model>snapinst/standard</model>
         <active>1</active>
         <order_status>pending</order_status>
-        <title>Installment BNI and Mandiri</title>
+        <title>Payment with Midtrans installment</title>
         <payment_action>sale</payment_action>
         <allowspecific>0</allowspecific>
-        <sort_order>1</sort_order>
+        <sort_order>2</sort_order>
         <conversion_rate>10000</conversion_rate>
         <enable_3d_secure>true</enable_3d_secure>
         <environment>sandbox</environment>

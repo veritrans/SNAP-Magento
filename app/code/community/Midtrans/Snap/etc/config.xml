@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Midtrans_Snap>
-      <version>2.2.3</version>
+      <version>1.1.2</version>
     </Midtrans_Snap>
   </modules>
   <global>
@@ -37,7 +37,7 @@
         <model>snap/standard</model>
         <active>1</active>
         <order_status>pending</order_status>
-        <title>Credit Card</title>
+        <title>Payment via Midtrans</title>
         <payment_action>sale</payment_action>
         <allowspecific>0</allowspecific>
         <sort_order>1</sort_order>
