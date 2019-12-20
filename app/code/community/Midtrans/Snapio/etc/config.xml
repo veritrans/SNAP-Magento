@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Midtrans_Snapio>
-      <version>1.0.0</version>
+      <version>1.1.2</version>
     </Midtrans_Snapio>
   </modules>
   <global>
@@ -37,12 +37,13 @@
         <model>snapio/standard</model>
         <active>1</active>
         <order_status>pending</order_status>
-        <title>Offline Installment</title>
+        <title>Payment via Midtrans offline installment</title>
         <payment_action>sale</payment_action>
         <allowspecific>0</allowspecific>
-        <sort_order>1</sort_order>
+        <sort_order>3</sort_order>
         <conversion_rate>10000</conversion_rate>
         <enable_3d_secure>true</enable_3d_secure>
+        <installment_term>3,6,12</installment_term>
         <environment>sandbox</environment>
       </snapio>
     </payment>

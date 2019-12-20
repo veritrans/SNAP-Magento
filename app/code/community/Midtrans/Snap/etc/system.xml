@@ -4,7 +4,7 @@
     <payment>
       <groups>
         <snap translate="label comment" module="snap">
-          <label>Midtrans ver 1.1.1</label>
+          <label>Midtrans 1.1.2</label>
           <frontend_type>text</frontend_type>
           <sort_order>1</sort_order>
           <show_in_default>1</show_in_default>
@@ -63,7 +63,7 @@
               <label>Client Key</label>
               <config_path>payment/snap/client_key</config_path>
               <frontend_type>text</frontend_type>
-              <sort_order>5</sort_order>
+              <sort_order>6</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -72,7 +72,7 @@
               <label>Server Key</label>
               <config_path>payment/snap/server_key</config_path>
               <frontend_type>text</frontend_type>
-              <sort_order>6</sort_order>
+              <sort_order>7</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -82,7 +82,7 @@
               <config_path>payment/snap/environment</config_path>
               <frontend_type>select</frontend_type>
               <source_model>snap/system_config_source_api_environment</source_model>
-              <sort_order>7</sort_order>
+              <sort_order>8</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -93,38 +93,69 @@
               <config_path>payment/snap/enable_3d_secure</config_path>
               <frontend_type>select</frontend_type>
               <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>8</sort_order>
+              <sort_order>9</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <comment>You must enable 3D Secure. Please contact us if you wish to disable this feature in the Production environment.</comment>
             </enable_3d_secure>
+            <acquiring_bank>
+              <label>Acquiring Bank</label>
+              <config_path>payment/snap/bank</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>11</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Input the desired acquiring bank. e.g: bni. Leave blank if you are not sure!</comment>
+            </acquiring_bank>
             <enable_one_click>
-              <label>Enable One Click</label>
+              <label>Save Card</label>
               <config_path>payment/snap/oneclick</config_path>
               <frontend_type>select</frontend_type>
               <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>9</sort_order>
+              <sort_order>12</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <comment>You must have oneclick MID to enable oneclick transaction, otherwise transaction will be 2 clicks. Please contact us if you wish to enable this feature in the Production environment.</comment>
             </enable_one_click>
+            <enable_payment>
+              <label>Allowed Payment Method</label>
+              <config_path>payment/snap/enablepayment</config_path>
+              <frontend_type>text</frontend_type>
+              <sort_order>13</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>Customize allowed payment method, separate payment method code with coma. e.g: bank_transfer,credit_card,gopay.Leave it default if you are not sure.</comment>
+            </enable_payment>
             <expiry_duration>
               <label>Expiry Duration</label>
               <config_path>payment/snap/expiry</config_path>
               <frontend_type>text</frontend_type>
-              <sort_order>10</sort_order>
+              <sort_order>14</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <comment>Filled wth duration,unit. Unit:minute,hour,day. example: 2,minute</comment>
             </expiry_duration>
+            <enable_snap_redirect>
+              <label>Enable Snap Redirect</label>
+              <config_path>payment/snap/snapredirect</config_path>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>15</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment>This is to change Snap PopUp to Redirect Mode.</comment>
+            </enable_snap_redirect>
             <form_message>
               <label>Form Message</label>
               <config_path>payment/snap/form_message</config_path>
               <frontend_type>textarea</frontend_type>
-              <sort_order>11</sort_order>
+              <sort_order>16</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
@@ -134,7 +165,7 @@
               <frontend_type>select</frontend_type>
               <config_path>payment/snap/info_type</config_path>
               <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>11</sort_order>
+              <sort_order>17</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
@@ -143,7 +174,7 @@
               <label>Payment Applicable From</label>
               <config_path>payment/snap/allowspecific</config_path>
               <frontend_type>select</frontend_type>
-              <sort_order>12</sort_order>
+              <sort_order>18</sort_order>
               <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
@@ -153,7 +184,7 @@
               <label>Countries Payment Applicable From</label>
               <config_path>payment/snap/specificcountry</config_path>
               <frontend_type>multiselect</frontend_type>
-              <sort_order>13</sort_order>
+              <sort_order>19</sort_order>
               <source_model>adminhtml/system_config_source_country</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
@@ -166,7 +197,7 @@
               <label>Sort Order</label>
               <config_path>payment/snap/sort_order</config_path>
               <frontend_type>text</frontend_type>
-              <sort_order>14</sort_order>
+              <sort_order>20</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
